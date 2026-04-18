@@ -298,6 +298,58 @@
     .interest-name { font-family:'DM Serif Display',serif; font-size:1.3rem; margin-bottom:.6rem; color:var(--text); }
     .interest-body { font-size:.73rem; line-height:1.8; color:var(--muted); }
 
+    /* ─── SECONDARY PROJECTS ─────────────────────────── */
+    .secondary-projects {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem; max-width: 1100px; margin-top: 5rem;
+    }
+    .proj-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem;
+      display: flex; flex-direction: column; gap: 1.2rem;
+      position: relative; overflow: hidden;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+    .proj-card::before {
+      content: ''; position: absolute; inset: 0; opacity: 0;
+      transition: opacity .3s; pointer-events: none;
+    }
+    .proj-card.p-music::before  { background: radial-gradient(circle at 0% 0%, rgba(57,255,110,.07) 0%, transparent 60%); }
+    .proj-card.p-web::before    { background: radial-gradient(circle at 0% 0%, rgba(0,238,255,.07) 0%, transparent 60%); }
+    .proj-card:hover { transform: translateY(-4px); }
+    .proj-card.p-music:hover { border-color: rgba(57,255,110,.35); box-shadow: 0 16px 40px rgba(57,255,110,.07); }
+    .proj-card.p-web:hover   { border-color: rgba(0,238,255,.35);  box-shadow: 0 16px 40px rgba(0,238,255,.07); }
+    .proj-card:hover::before { opacity: 1; }
+
+    .proj-icon {
+      width: 48px; height: 48px; border-radius: 13px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .proj-icon.music { background: rgba(57,255,110,.12); border: 1px solid rgba(57,255,110,.25); }
+    .proj-icon.web   { background: rgba(0,238,255,.12);  border: 1px solid rgba(0,238,255,.25); }
+
+    .proj-top { display: flex; align-items: center; gap: 1rem; }
+    .proj-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; letter-spacing: .06em;
+    }
+    .proj-name.music { color: var(--electric); }
+    .proj-name.web   { color: var(--amber); }
+    .proj-subtitle { font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-top: .1rem; }
+    .proj-desc { font-size: .78rem; line-height: 1.85; color: var(--muted); }
+    .proj-desc strong { color: var(--text); font-weight: 400; }
+    .proj-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .proj-chip {
+      font-size: .56rem; letter-spacing: .12em; text-transform: uppercase;
+      padding: .22rem .55rem; border-radius: 2px;
+      border: 1px solid var(--border); color: var(--muted);
+    }
+    .proj-chip.g { border-color: rgba(57,255,110,.3); color: var(--electric); }
+    .proj-chip.c { border-color: rgba(0,238,255,.3);  color: var(--amber); }
+
+    @media (max-width:900px) { .secondary-projects { grid-template-columns: 1fr; } }
+
     /* ─── FOOTER ─────────────────────────────────────── */
     footer { border-top:1px solid var(--border); padding:2.5rem 3rem; display:flex; justify-content:space-between; align-items:center; }
     .footer-name { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:.12em; color:var(--amber); }
@@ -349,8 +401,8 @@
       </h1>
       <p class="hero-desc">
         <span>Developer & builder</span> at Portola High School.
-        Grew up in London, now in California — making <span>cross-platform apps</span>
-        that work in the real world. Heading to <span>New York City</span> for CS.
+        Grew up in London, now in California — building <span>apps & platforms</span>
+        that connect people. Three projects in flight. Heading to <span>New York City</span> for CS.
       </p>
       <div class="hero-cta">
         <a href="#work" class="btn btn-primary" data-label="View →">See My Work</a>
@@ -360,25 +412,25 @@
 
     <div class="hero-right">
       <div class="tilt-cards">
-        <div class="tilt-card c-amber" data-label="My App">
+        <div class="tilt-card c-amber" data-label="Coffee App">
           <div class="card-pip">☕</div>
           <div class="card-text">
-            <div class="card-sublabel">Currently Building</div>
-            <div class="card-title">Elio — Coffee App</div>
+            <div class="card-sublabel">In Development</div>
+            <div class="card-title">Elio — Coffee Rewards</div>
           </div>
         </div>
-        <div class="tilt-card c-electric" data-label="My Focus">
-          <div class="card-pip">💻</div>
+        <div class="tilt-card c-electric" data-label="Music App">
+          <div class="card-pip">🎵</div>
           <div class="card-text">
-            <div class="card-sublabel">Studying</div>
-            <div class="card-title">Computer Science</div>
+            <div class="card-sublabel">In Development</div>
+            <div class="card-title">Hamara — Music & Culture</div>
           </div>
         </div>
-        <div class="tilt-card c-coral" data-label="Next Stop">
-          <div class="card-pip">🗽</div>
+        <div class="tilt-card c-coral" data-label="Web Platform">
+          <div class="card-pip">💡</div>
           <div class="card-text">
-            <div class="card-sublabel">Heading to</div>
-            <div class="card-title">New York City</div>
+            <div class="card-sublabel">In Development</div>
+            <div class="card-title">I Did It — Inventions</div>
           </div>
         </div>
       </div>
@@ -387,7 +439,7 @@
 
   <div class="marquee-bar">
     <div class="marquee-inner">
-      Flutter <span>✦</span> Firebase <span>✦</span> Android & iOS <span>✦</span> Stripe Payments <span>✦</span> Apple Wallet <span>✦</span> Cloud Functions <span>✦</span> Computer Science <span>✦</span> NYC Bound <span>✦</span> London → California <span>✦</span> Flutter <span>✦</span> Firebase <span>✦</span> Android & iOS <span>✦</span> Stripe Payments <span>✦</span> Apple Wallet <span>✦</span> Cloud Functions <span>✦</span> Computer Science <span>✦</span> NYC Bound <span>✦</span> London → California <span>✦</span>
+      Flutter <span>✦</span> Firebase <span>✦</span> Android & iOS <span>✦</span> Elio <span>✦</span> Hamara <span>✦</span> I Did It <span>✦</span> Stripe Payments <span>✦</span> Apple Wallet <span>✦</span> Cloud Functions <span>✦</span> Computer Science <span>✦</span> NYC Bound <span>✦</span> London → California <span>✦</span> Flutter <span>✦</span> Firebase <span>✦</span> Android & iOS <span>✦</span> Elio <span>✦</span> Hamara <span>✦</span> I Did It <span>✦</span> Stripe Payments <span>✦</span> Apple Wallet <span>✦</span> Cloud Functions <span>✦</span> Computer Science <span>✦</span> NYC Bound <span>✦</span> London → California <span>✦</span>
     </div>
   </div>
 
@@ -413,8 +465,8 @@
           <div class="stat-label">Years Coding</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num">1</div>
-          <div class="stat-label">App in Dev</div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Projects in Dev</div>
         </div>
         <div class="stat-card">
           <div class="stat-num">2</div>
@@ -448,7 +500,7 @@
         </div>
       </div>
       <div class="project-content">
-        <div class="section-label">Featured Project</div>
+        <div class="section-label">Projects — 1 of 3</div>
         <h2 class="project-heading">ELIO<br>COFFEE<br>REWARDS</h2>
         <p class="project-desc">
           A cross-platform app — <strong>Android & iOS</strong> — that runs a full loyalty
@@ -463,6 +515,49 @@
           <li><strong>Sign in with Apple & Google</strong> authentication</li>
           <li><strong>Firebase Cloud Functions</strong> & real-time Firestore backend</li>
         </ul>
+      </div>
+    </div>
+
+    <div class="secondary-projects">
+      <div class="proj-card p-music" data-label="Hamara">
+        <div class="proj-top">
+          <div class="proj-icon music">🎵</div>
+          <div>
+            <div class="proj-name music">HAMARA</div>
+            <div class="proj-subtitle">Music Discovery · Android & iOS</div>
+          </div>
+        </div>
+        <p class="proj-desc">
+          <strong>Hamara</strong> — meaning <em>"ours"</em> in Urdu — is a music app built to
+          connect people with sounds from <strong>cultures around the world</strong>.
+          Discover music beyond your algorithm, find artists you'd never stumble across,
+          and hear what the world actually listens to.
+        </p>
+        <div class="proj-chips">
+          <span class="proj-chip g">Flutter</span>
+          <span class="proj-chip g">Firebase</span>
+          <span class="proj-chip">In Development</span>
+        </div>
+      </div>
+
+      <div class="proj-card p-web" data-label="I Did It">
+        <div class="proj-top">
+          <div class="proj-icon web">💡</div>
+          <div>
+            <div class="proj-name web">I DID IT</div>
+            <div class="proj-subtitle">Inventions Platform · Web</div>
+          </div>
+        </div>
+        <p class="proj-desc">
+          A platform where <strong>anyone can post their inventions</strong>, prototypes,
+          and creative builds — and get them seen. Built on the belief that great ideas
+          don't need a patent office or a product launch to be worth sharing.
+        </p>
+        <div class="proj-chips">
+          <span class="proj-chip c">Web Platform</span>
+          <span class="proj-chip c">Community</span>
+          <span class="proj-chip">In Development</span>
+        </div>
       </div>
     </div>
   </section>
@@ -490,6 +585,7 @@
   <footer id="contact">
     <div class="footer-name">Faris Salman</div>
     <div class="footer-links">
+      <a href="https://instagram.com/farissalmandev" target="_blank" data-label="Instagram">@farissalmandev</a>
       <a href="mailto:support@farissalman.com" data-label="Email">support@farissalman.com</a>
     </div>
     <div class="footer-copy">© 2026 — The best is yet to come.</div>
