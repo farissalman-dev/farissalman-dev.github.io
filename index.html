@@ -624,17 +624,17 @@
         }
 
         .tech-chips {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  gap: .4rem;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin-top: 2rem;
-  padding: 0 1rem;
-}
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: left;
+            gap: .4rem;
+            position: relative;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin-top: 2rem;
+            padding: 0 1rem;
+        }
 
         .chip {
             font-size: .58rem;
@@ -939,7 +939,12 @@
 
         .footer-links {
             display: flex;
-            gap: 2rem;
+            flex-wrap: wrap;
+            /* This allows them to "auto-change" to a stack */
+            justify-content: center;
+            /* Keeps them centered when they wrap */
+            gap: 1.5rem 2rem;
+            /* Adds vertical gap (1.5rem) and horizontal gap (2rem) */
             align-items: center;
         }
 
@@ -950,6 +955,8 @@
             color: var(--muted);
             text-decoration: none;
             transition: color .2s;
+            white-space: nowrap;
+            /* Prevents a single link from breaking onto two lines */
         }
 
         .footer-links a:hover {
