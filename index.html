@@ -940,11 +940,8 @@
         .footer-links {
             display: flex;
             flex-wrap: wrap;
-            /* This allows them to "auto-change" to a stack */
             justify-content: center;
-            /* Keeps them centered when they wrap */
             gap: 1.5rem 2rem;
-            /* Adds vertical gap (1.5rem) and horizontal gap (2rem) */
             align-items: center;
         }
 
@@ -956,7 +953,6 @@
             text-decoration: none;
             transition: color .2s;
             white-space: nowrap;
-            /* Prevents a single link from breaking onto two lines */
         }
 
         .footer-links a:hover {
@@ -1023,25 +1019,21 @@
             }
         }
 
-        /* Hide custom cursor elements by default (Mobile/Tablets) */
         #cursor-dot,
         #cursor-ring,
         #cursor-label {
             display: none;
         }
 
-        /* Desktop Only: If the device has a mouse (fine pointer) */
         @media (pointer: fine) and (hover: hover) {
             body {
                 cursor: none;
-                /* Hide default arrow ONLY when a mouse is detected */
             }
 
             #cursor-dot,
             #cursor-ring,
             #cursor-label {
                 display: block;
-                /* Show the custom cursor ONLY on desktop */
             }
 
             #cursor-dot {
