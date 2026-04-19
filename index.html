@@ -966,22 +966,14 @@
             transition: width .1s;
         }
 
-        @media (max-width:900px) {
+        @media (max-width:800px) {
             .hero {
                 grid-template-columns: 1fr;
-                padding-top: 100px;
             }
 
             .hero-right {
                 display: none;
             }
-
-            .about-grid,
-            .project-feature {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
             .interests-grid {
                 grid-template-columns: 1fr;
             }
@@ -1001,7 +993,15 @@
             }
         }
 
-        @media (max-width: 470px) {
+        @media (max-width:1065px) {
+            .about-grid,
+            .project-feature {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 500px) {
             .feature-list {
                 display: none;
             }
