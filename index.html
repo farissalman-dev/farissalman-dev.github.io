@@ -42,68 +42,7 @@
             cursor: none;
         }
 
-        /* ─── CURSOR ─────────────────────────────────────── */
-        #cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--amber);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: background 0.2s, transform 0.15s;
-        }
 
-        #cursor-ring {
-            width: 32px;
-            height: 32px;
-            border: 1.5px solid rgba(0, 238, 255, 0.7);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: width .35s cubic-bezier(.23, 1, .32, 1),
-                height .35s cubic-bezier(.23, 1, .32, 1),
-                border-color .25s,
-                border-radius .35s cubic-bezier(.23, 1, .32, 1);
-        }
-
-        #cursor-label {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9997;
-            font-family: 'DM Mono', monospace;
-            font-size: 0.58rem;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--amber);
-            background: rgba(11, 11, 14, 0.9);
-            border: 1px solid rgba(0, 238, 255, 0.25);
-            padding: 0.2rem 0.55rem;
-            border-radius: 2px;
-            white-space: nowrap;
-            opacity: 0;
-            transform: translate(18px, -50%);
-            transition: opacity 0.18s;
-        }
-
-        body.cur-hover #cursor-ring {
-            width: 50px;
-            height: 50px;
-            border-color: var(--electric);
-            border-radius: 6px;
-        }
-
-        body.cur-hover #cursor-dot {
-            background: var(--electric);
-            transform: translate(-50%, -50%) scale(1.8);
-        }
-
-        body.cur-hover #cursor-label {
-            opacity: 1;
-        }
 
         /* Noise */
         body::before {
@@ -1063,16 +1002,76 @@
         }
 
         /* If the device does not support hovering (Mobile/Touch) */
-        @media (hover: none) {
+        #cursor-dot,
+        #cursor-ring,
+        #cursor-label {
+            display: none !important;
+        }
 
-            #cursor-dot,
-            #cursor-ring,
-            #cursor-label {
-                display: none !important;
+        /* If device does support hovering and cursor*/
+        @media (pointer: fine) and (hover: hover) {
+
+            /* ─── CURSOR ─────────────────────────────────────── */
+            #cursor-dot {
+                width: 6px;
+                height: 6px;
+                background: var(--amber);
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate(-50%, -50%);
+                transition: background 0.2s, transform 0.15s;
             }
 
-            body {
-                cursor: auto !important;
+            #cursor-ring {
+                width: 32px;
+                height: 32px;
+                border: 1.5px solid rgba(0, 238, 255, 0.7);
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 9998;
+                transform: translate(-50%, -50%);
+                transition: width .35s cubic-bezier(.23, 1, .32, 1),
+                    height .35s cubic-bezier(.23, 1, .32, 1),
+                    border-color .25s,
+                    border-radius .35s cubic-bezier(.23, 1, .32, 1);
+            }
+
+            #cursor-label {
+                position: fixed;
+                pointer-events: none;
+                z-index: 9997;
+                font-family: 'DM Mono', monospace;
+                font-size: 0.58rem;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                color: var(--amber);
+                background: rgba(11, 11, 14, 0.9);
+                border: 1px solid rgba(0, 238, 255, 0.25);
+                padding: 0.2rem 0.55rem;
+                border-radius: 2px;
+                white-space: nowrap;
+                opacity: 0;
+                transform: translate(18px, -50%);
+                transition: opacity 0.18s;
+            }
+
+            body.cur-hover #cursor-ring {
+                width: 50px;
+                height: 50px;
+                border-color: var(--electric);
+                border-radius: 6px;
+            }
+
+            body.cur-hover #cursor-dot {
+                background: var(--electric);
+                transform: translate(-50%, -50%) scale(1.8);
+            }
+
+            body.cur-hover #cursor-label {
+                opacity: 1;
             }
         }
 
