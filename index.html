@@ -1001,17 +1001,27 @@
             }
         }
 
-        /* If the device does not support hovering (Mobile/Touch) */
+        /* Hide custom cursor elements by default (Mobile/Tablets) */
         #cursor-dot,
         #cursor-ring,
         #cursor-label {
-            display: none !important;
+            display: none;
         }
 
-        /* If device does support hovering and cursor*/
+        /* Desktop Only: If the device has a mouse (fine pointer) */
         @media (pointer: fine) and (hover: hover) {
+            body {
+                cursor: none;
+                /* Hide default arrow ONLY when a mouse is detected */
+            }
 
-            /* ─── CURSOR ─────────────────────────────────────── */
+            #cursor-dot,
+            #cursor-ring,
+            #cursor-label {
+                display: block;
+                /* Show the custom cursor ONLY on desktop */
+            }
+
             #cursor-dot {
                 width: 6px;
                 height: 6px;
@@ -1072,12 +1082,6 @@
 
             body.cur-hover #cursor-label {
                 opacity: 1;
-            }
-        }
-
-        @media (max-width: 500px) {
-            .feature-list {
-                display: none;
             }
         }
     </style>
