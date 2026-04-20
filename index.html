@@ -104,60 +104,25 @@
             overflow: hidden;
         }
 
-        .glow-1,
-        .glow-2,
-        .glow-3 {
+        #mesh-canvas {
             position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
             pointer-events: none;
         }
 
-        .glow-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 238, 255, .11) 0%, transparent 70%);
-            top: -100px;
+        .hero::after {
+            content: '';
+            position: absolute;
+            left: 0;
             right: 0;
-            animation: drift1 10s ease-in-out infinite alternate;
-        }
-
-        .glow-2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(57, 255, 110, .08) 0%, transparent 70%);
-            bottom: 50px;
-            left: 10%;
-            animation: drift2 13s ease-in-out infinite alternate;
-        }
-
-        .glow-3 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0, 238, 255, .07) 0%, transparent 70%);
-            top: 40%;
-            right: 20%;
-            animation: drift1 8s ease-in-out infinite alternate-reverse;
-        }
-
-        @keyframes drift1 {
-            from {
-                transform: translateY(0) scale(1)
-            }
-
-            to {
-                transform: translateY(40px) scale(1.1)
-            }
-        }
-
-        @keyframes drift2 {
-            from {
-                transform: translateX(0)
-            }
-
-            to {
-                transform: translateX(30px)
-            }
+            bottom: 0;
+            height: 30%;
+            background: linear-gradient(to bottom, transparent, var(--bg));
+            pointer-events: none;
+            z-index: 1;
         }
 
         .hero-left {
@@ -303,7 +268,6 @@
             animation-delay: 1.5s;
             margin-left: 20px;
         }
-
 
         .tilt-card::after {
             content: '';
@@ -1174,9 +1138,7 @@
     </header>
 
     <section class="hero" id="home">
-        <div class="glow-1"></div>
-        <div class="glow-2"></div>
-        <div class="glow-3"></div>
+        <canvas id="mesh-canvas"></canvas>
 
         <div class="hero-left">
             <div class="hero-tag">↳ London → Irvine, CA</div>
@@ -1513,7 +1475,6 @@
         // ─── 3D TILT CARDS ──────────────────────────────────
         document.querySelectorAll('.tilt-card').forEach(card => {
             card.addEventListener('mouseenter', () => {
-                // This removes the CSS 'lock' so JS can move the card freely
                 card.style.animation = 'none';
                 card.style.opacity = '1';
             });
@@ -1523,7 +1484,6 @@
                 const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
                 const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
 
-                // Use a multiplier of 20 for a noticeable 3D effect
                 card.style.transform =
                     `perspective(900px) rotateX(${-dy * 10}deg) rotateY(${dx * 10}deg) scale(1.04)`;
 
@@ -1533,13 +1493,131 @@
             });
 
             card.addEventListener('mouseleave', () => {
-                // Smoothly transition back to the 'flat' resting state
                 card.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
                 card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
                 card.style.setProperty('--mx', '50%');
                 card.style.setProperty('--my', '50%');
             });
         });
+
+        // ─── MESH GRADIENT SHADER (hero only) ───────────────
+        (function () {
+            const canvas = document.getElementById('mesh-canvas');
+            if (!canvas) return;
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (!gl) { canvas.style.display = 'none'; return; }
+
+            const vs = `
+                attribute vec2 a_pos;
+                void main(){ gl_Position = vec4(a_pos, 0.0, 1.0); }
+            `;
+            const fs = `
+                precision highp float;
+                uniform float u_time;
+                uniform vec2 u_res;
+                float blob(vec2 p, vec2 c, float r){ return smoothstep(r, 0.0, length(p - c)); }
+                void main(){
+                    vec2 uv = gl_FragCoord.xy / u_res.xy;
+                    vec2 p = uv; p.x *= u_res.x / u_res.y;
+                    float t = u_time * 0.00015;
+                    vec2 b1 = vec2(0.35 + sin(t*1.3)*0.25, 0.3 + cos(t*1.1)*0.22);
+                    vec2 b2 = vec2(0.75 + cos(t*0.9)*0.2,  0.7 + sin(t*1.5)*0.2);
+                    vec2 b3 = vec2(0.5  + sin(t*0.7+1.0)*0.3, 0.5 + cos(t*1.2+2.0)*0.28);
+                    vec2 b4 = vec2(0.2  + cos(t*1.7)*0.15, 0.85 + sin(t*1.0)*0.1);
+                    vec3 cyan   = vec3(0.0, 0.93, 1.0);
+                    vec3 green  = vec3(0.22, 1.0, 0.43);
+                    vec3 violet = vec3(0.45, 0.25, 0.95);
+                    vec3 bg     = vec3(0.043, 0.043, 0.055);
+                    vec3 col = bg;
+                    col += cyan   * 0.28 * blob(p, b1, 0.55);
+                    col += green  * 0.22 * blob(p, b2, 0.50);
+                    col += cyan   * 0.18 * blob(p, b3, 0.45);
+                    col += violet * 0.18 * blob(p, b4, 0.40);
+                    float n = fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
+                    col += (n - 0.5) * 0.015;
+                    gl_FragColor = vec4(col, 1.0);
+                }
+            `;
+            function compile(type, src) {
+                const s = gl.createShader(type);
+                gl.shaderSource(s, src); gl.compileShader(s);
+                return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+            }
+            const prog = gl.createProgram();
+            gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
+            gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
+            gl.linkProgram(prog); gl.useProgram(prog);
+
+            const buf = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+            const loc = gl.getAttribLocation(prog, 'a_pos');
+            gl.enableVertexAttribArray(loc);
+            gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+            const uTime = gl.getUniformLocation(prog, 'u_time');
+            const uRes = gl.getUniformLocation(prog, 'u_res');
+
+            function resize() {
+                const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+                const r = canvas.getBoundingClientRect();
+                canvas.width = Math.floor(r.width * dpr);
+                canvas.height = Math.floor(r.height * dpr);
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const start = performance.now();
+            (function render() {
+                gl.uniform1f(uTime, performance.now() - start);
+                gl.uniform2f(uRes, canvas.width, canvas.height);
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                requestAnimationFrame(render);
+            })();
+        })();
+
+        // ─── SPLIT-FLAP NAME REVEAL ─────────────────────────
+        (function () {
+            const target = document.querySelector('.glitch-text');
+            if (!target) return;
+
+            const chars = [
+                { ch: 'F' }, { ch: 'A' }, { ch: 'R', accent: true }, { ch: 'I' }, { ch: 'S' },
+                { br: true },
+                { ch: 'S' }, { ch: 'A' }, { ch: 'L' }, { ch: 'M', accent: true }, { ch: 'A' }, { ch: 'N' }
+            ];
+
+            target.innerHTML = '';
+            const letters = [];
+            chars.forEach(c => {
+                if (c.br) { target.appendChild(document.createElement('br')); return; }
+                const s = document.createElement('span');
+                s.className = 'flap' + (c.accent ? ' accent' : '');
+                s.style.display = 'inline-block';
+                s.textContent = '\u00A0';
+                target.appendChild(s);
+                letters.push({ el: s, final: c.ch });
+            });
+
+            const pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@%&*';
+            const startDelay = 700;
+
+            letters.forEach((l, i) => {
+                const flips = 8 + Math.floor(Math.random() * 5);
+                let n = 0;
+                setTimeout(() => {
+                    const iv = setInterval(() => {
+                        n++;
+                        if (n >= flips) {
+                            l.el.textContent = l.final;
+                            clearInterval(iv);
+                        } else {
+                            l.el.textContent = pool[Math.floor(Math.random() * pool.length)];
+                        }
+                    }, 55);
+                }, startDelay + i * 70);
+            });
+        })();
 
         // ─── SCROLL ──────────────────────────────────────────
         const header = document.getElementById('header');
