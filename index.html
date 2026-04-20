@@ -1426,11 +1426,9 @@
                 const dy = e.clientY - centerY;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                // Lower radius = mouse has to be closer to trigger
                 const radius = 80;
 
                 if (distance < radius) {
-                    // Lower multiplier (0.15) = much less movement
                     const force = (radius - distance) / radius;
                     const moveX = dx * force * 0.15;
                     const moveY = dy * force * 0.15;
@@ -1458,8 +1456,8 @@
             lbl.style.top = my + 'px';
         });
         (function tick() {
-            rx += (mx - rx) * 0.25;
-            ry += (my - ry) * 0.25;
+            rx += (mx - rx) * 0.1;
+            ry += (my - ry) * 0.1;
             ring.style.left = rx + 'px';
             ring.style.top = ry + 'px';
             requestAnimationFrame(tick);
