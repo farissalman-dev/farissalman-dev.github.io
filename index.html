@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0b0b0e">
     <meta name="theme-color" content="#0b0b0e" media="(prefers-color-scheme: dark)">
     <title>Faris Salman</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,9 +43,6 @@
             cursor: none;
         }
 
-
-
-        /* Noise */
         body::before {
             content: '';
             position: fixed;
@@ -57,7 +53,6 @@
             z-index: 1000;
         }
 
-        /* ─── HEADER ─────────────────────────────────────── */
         header {
             position: fixed;
             top: 0;
@@ -99,7 +94,6 @@
             color: var(--electric);
         }
 
-        /* ─── HERO ───────────────────────────────────────── */
         .hero {
             min-height: 100vh;
             display: grid;
@@ -263,7 +257,6 @@
             transform: translateY(-2px);
         }
 
-        /* ─── HERO CARDS ─────────────────────────────────── */
         .hero-right {
             position: relative;
             z-index: 2;
@@ -291,14 +284,11 @@
             position: relative;
             overflow: hidden;
             will-change: transform;
-
-            /* This is the secret: define the 'to' state here as well */
             opacity: 0;
             transform: perspective(900px) translateX(0) scale(1);
             animation: cardIn 0.55s cubic-bezier(.23, 1, .32, 1) forwards;
         }
 
-        /* Keep your existing staggered delays */
         .tilt-card:nth-child(1) {
             animation-delay: 1.1s;
             margin-left: 30px;
@@ -396,7 +386,6 @@
             }
         }
 
-        /* ─── MARQUEE ─────────────────────────────────────── */
         .marquee-bar {
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
@@ -430,7 +419,18 @@
             }
         }
 
-        /* ─── ABOUT ───────────────────────────────────────── */
+        @keyframes spice-fall {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--end-x), var(--end-y)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
         section {
             padding: 7rem 3rem;
             position: relative;
@@ -517,7 +517,6 @@
             margin-top: .3rem;
         }
 
-        /* ─── WORK ────────────────────────────────────────── */
         .work-section {
             background: var(--surface);
         }
@@ -707,7 +706,6 @@
             font-weight: 400;
         }
 
-        /* ─── INTERESTS ──────────────────────────────────── */
         .interests-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -776,7 +774,6 @@
             color: var(--muted);
         }
 
-        /* ─── SECONDARY PROJECTS ─────────────────────────── */
         .secondary-projects {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -925,7 +922,6 @@
             }
         }
 
-        /* ─── FOOTER ─────────────────────────────────────── */
         footer {
             border-top: 1px solid var(--border);
             padding: 2.5rem 3rem;
@@ -1023,12 +1019,6 @@
             }
         }
 
-        #cursor-dot,
-        #cursor-ring,
-        #cursor-label {
-            display: none;
-        }
-
         @media (pointer: fine) and (hover: hover) {
             body {
                 cursor: none;
@@ -1101,6 +1091,68 @@
             body.cur-hover #cursor-label {
                 opacity: 1;
             }
+
+
+        }
+
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-left h1:hover .glitch-text {
+            animation: jitter 0.2s infinite;
+        }
+
+        .hero-left h1:hover .glitch-text {
+            text-shadow:
+                -2px 0 #00ff00,
+                2px 0 #ff0055;
+            animation: shadow-drift 0.15s infinite;
+        }
+
+        @keyframes jitter {
+            0% {
+                transform: translate(0);
+            }
+
+            25% {
+                transform: translate(0.5px, -0.5px);
+            }
+
+            75% {
+                transform: translate(-0.5px, 0.5px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        @keyframes shadow-drift {
+            0% {
+                text-shadow: -2px 0 var(--amber), 2px 0 #ff0055;
+            }
+
+            20% {
+                text-shadow: -3px 1px var(--amber), 1px -1px #ff0055;
+            }
+
+            40% {
+                text-shadow: 2px -1px var(--amber), -2px 1px #ff0055;
+            }
+
+            60% {
+                text-shadow: -1px 2px var(--amber), 3px -2px #ff0055;
+            }
+
+            80% {
+                text-shadow: 3px 0px var(--amber), -1px 0px #ff0055;
+            }
+
+            100% {
+                text-shadow: -2px 0 var(--amber), 2px 0 #ff0055;
+            }
         }
     </style>
 </head>
@@ -1130,8 +1182,10 @@
             <div class="hero-tag">↳ London → Irvine, CA</div>
             <h1>
                 <span class="thin">Hello, I'm</span>
-                FA<span class="accent">R</span>IS<br>
-                SAL<span class="accent">M</span>AN
+                <span class="glitch-text">
+                    FA<span class="accent">R</span>IS<br>
+                    SAL<span class="accent">M</span>AN
+                </span>
             </h1>
             <p class="hero-desc">
                 Hey! I’m a <span>student and maker</span> currently in high school.
@@ -1173,13 +1227,30 @@
     </section>
 
     <div class="marquee-bar">
-        <div class="marquee-inner">
-            Flutter <span>✦</span> Firebase <span>✦</span> Chai Lover <span>✦</span> Powered by Biryani <span>✦</span>
-            Android & iOS <span>✦</span> Elio <span>✦</span> Hamara
-            <span>✦</span> I Did It <span>✦</span> Stripe Payments <span>✦</span> Apple Wallet <span>✦</span> Cloud
-            Functions <span>✦</span> Computer Science <span>✦</span> NYC Bound <span>✦</span> London → California
-            <span>✦</span>
+        <div class="marquee-inner" style="display: flex; width: max-content;">
+
+            <span class="marquee-group">
+                Flutter <span>✦</span> Firebase <span>✦</span> Chai Lover <span>✦</span>
+                <span class="biryani-trigger" data-label="TASTY!" style="color: var(--electric);">Powered by
+                    Biryani</span>
+                <span>✦</span> Android & iOS <span>✦</span> Elio <span>✦</span> Hamara <span>✦</span> I Did It
+                <span>✦</span>
+                Stripe Payments <span>✦</span> Apple Wallet <span>✦</span> Cloud Functions <span>✦</span>
+                Computer Science <span>✦</span> NYC Bound <span>✦</span> London → California <span>✦</span>
+            </span>
+
+            <span class="marquee-group">
+                Flutter <span>✦</span> Firebase <span>✦</span> Chai Lover <span>✦</span>
+                <span class="biryani-trigger" data-label="TASTY!" style="color: var(--electric);">Powered by
+                    Biryani</span>
+                <span>✦</span> Android & iOS <span>✦</span> Elio <span>✦</span> Hamara <span>✦</span> I Did It
+                <span>✦</span>
+                Stripe Payments <span>✦</span> Apple Wallet <span>✦</span> Cloud Functions <span>✦</span>
+                Computer Science <span>✦</span> NYC Bound <span>✦</span> London → California <span>✦</span>
+            </span>
+
         </div>
+
     </div>
 
     <section id="about">
@@ -1326,6 +1397,7 @@
     <footer id="contact">
         <div class="footer-name">Faris Salman</div>
         <div class="footer-links">
+            <a href="https://github.com/farissalman-dev" target="_blank" data-label="GitHub">github/farissalman-dev</a>
             <a href="https://instagram.com/farissalmandev" target="_blank" data-label="Instagram">@farissalmandev</a>
             <a href="mailto:hello@farissalman.com" data-label="Email">hello@farissalman.com</a>
         </div>
@@ -1333,6 +1405,83 @@
     </footer>
 
     <script>
+
+        // ─── BIRYANI EXPLOSION ──────────────────────────────
+        const biryaniTriggers = document.querySelectorAll('.biryani-trigger');
+        const spices = ['🌶️', '🍚', '🍗', '✨', '🔥', '🥘'];
+
+        biryaniTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                // Create 20 "spice" particles at the click location
+                for (let i = 0; i < 20; i++) {
+                    createSpiceParticle(e.clientX, e.clientY);
+                }
+
+                // Brief visual feedback on the text itself
+                trigger.style.textShadow = '0 0 20px var(--electric)';
+                setTimeout(() => trigger.style.textShadow = 'none', 500);
+            });
+        });
+
+        function createSpiceParticle(x, y) {
+            const p = document.createElement('div');
+            p.className = 'spice-particle'; // Ensure this matches your CSS class name
+            p.textContent = spices[Math.floor(Math.random() * spices.length)];
+
+            // Random physics for the "explosion"
+            const destinationX = (Math.random() - 0.5) * 800; // Left or Right
+            const destinationY = (Math.random() * 800) + 200; // Always falls down
+            const rotation = Math.random() * 720;
+            const duration = Math.random() * 1.5 + 1;
+
+            // Apply styles directly or via CSS variables
+            p.style.position = 'fixed';
+            p.style.left = x + 'px';
+            p.style.top = y + 'px';
+            p.style.pointerEvents = 'none';
+            p.style.zIndex = '1000';
+            p.style.fontSize = '24px';
+
+            // Set custom variables for the CSS animation
+            p.style.setProperty('--end-x', `${destinationX}px`);
+            p.style.setProperty('--end-y', `${destinationY}px`);
+            p.style.animation = `spice-fall ${duration}s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), duration * 1000);
+        }
+
+        // ─────────── MAGNETIC ICONS ─────────────────────
+        const magneticElements = document.querySelectorAll('.app-icon, .card-pip, .proj-icon');
+
+        document.addEventListener('mousemove', (e) => {
+            magneticElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                const dx = e.clientX - centerX;
+                const dy = e.clientY - centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                // Lower radius = mouse has to be closer to trigger
+                const radius = 80;
+
+                if (distance < radius) {
+                    // Lower multiplier (0.15) = much less movement
+                    const force = (radius - distance) / radius;
+                    const moveX = dx * force * 0.15;
+                    const moveY = dy * force * 0.15;
+
+                    el.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                    el.style.transition = 'transform 0.2s ease-out';
+                } else {
+                    el.style.transform = `translate(0, 0)`;
+                    el.style.transition = 'transform 0.6s ease-in-out';
+                }
+            });
+        });
+
         // ─── CURSOR ─────────────────────────────────────────
         const dot = document.getElementById('cursor-dot');
         const ring = document.getElementById('cursor-ring');
