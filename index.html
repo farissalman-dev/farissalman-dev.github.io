@@ -983,6 +983,12 @@
             }
         }
 
+        #cursor-dot,
+        #cursor-ring,
+        #cursor-label {
+            display: none;
+        }
+
         @media (pointer: fine) and (hover: hover) {
             body {
                 cursor: none;
@@ -992,12 +998,6 @@
             #cursor-ring,
             #cursor-label {
                 display: block;
-            }
-
-            #cursor-dot,
-            #cursor-ring,
-            #cursor-label {
-                display: none;
             }
 
             #cursor-dot {
